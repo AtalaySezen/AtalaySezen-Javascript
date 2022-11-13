@@ -7,6 +7,10 @@ async function getapi(apiUrl) {
     var data = await response.json();
     showData(data);
     allDatas.push(data)
+    let lastElement = data.slice(-1);
+    lastElement.map(x => {
+        document.getElementById('id-span').innerHTML = `Please Write Id More Than ${x.id}.`
+    })
 }
 
 //Fonksiyonun çağırılması
@@ -23,7 +27,9 @@ function showData(data) {
         <h5  class="card-title three-dots" >${r.title}</h5>
         <p id="${r.id}" class="card-text three-dots" >${r.body}</p>
         <div class="d-flex flex-column">
+        <!--- 
         <button class="btn btn-primary" id=${r.id} onclick="openDialog(event.target.id)">Edit </button>
+        -->
         <span id=${r.id} onclick="showMore(event.target)" class="show-btn">Show More</span>
         </div>
         </div>
@@ -32,7 +38,6 @@ function showData(data) {
         `
         imageDiv.innerHTML = tab;
     }
-
 }
 
 //Show Text
@@ -64,25 +69,32 @@ function openDialog(event) {
     popupDialog.classList.remove('none');
 }
 
-
 let dialogInput = document.getElementById('input');
 
 function saveDialog() {
     popupDialog.classList.add('none');
     console.log(dialogInput.value);
-
 }
+
 let bodyInput = document.getElementById('bodyInput');
 let titleInput = document.getElementById('titleInput');
 let imageId = document.getElementById('imageId');
-let userId = document.getElementById('userId')
 let idInput = document.getElementById('idInput');
+let alertMessage = document.getElementById('alert-message');
 
 function addCard() {
+    if (bodyInput.value.length < 4 || titleInput.value.length < 4) {
+        alertMessage.classList.remove('none');
+    } else if (imageId.value == '' || idInput.value == '') {
+        alertMessage.classList.remove('none');
+    } else {
+        postNewData();
+    }
+}
+
+function postNewData() {
     fetch(apiUrl, {
-        // Adding method type
         method: "POST",
-        // Adding body or contents to send
         body: JSON.stringify({
             title: titleInput.value,
             body: bodyInput.value,
@@ -94,9 +106,7 @@ function addCard() {
         }
 
     })
-        // Converting to JSON
         .then(response => response.json())
-        // Displaying results to console
         .then(json => console.log(json));
     console.log(allDatas, "alldata save");
 }

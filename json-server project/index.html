@@ -13,20 +13,38 @@
 <body>
     <header>
         <nav class="navbar navbar-light bg-primary">
-            <span class="navbar-brand mb-0 h1 text-white">Navbar</span>
+            <span class="navbar-brand mb-0 h1 text-white">Blog App</span>
         </nav>
     </header>
-
-    <div class="container mt-5 ">
-        <button type="button" class="btn btn-success" onclick="addCard()">Add New Card</button>
-        <label>Title</label>
-        <input type="text" id="titleInput">
-        <label>Body Input</label>
-        <input type="text" id="bodyInput">
-        <label>Image Id</label>
-        <input type="number" id="imageId">
-        <label>Number Id</label>
-        <input type="number" id="idInput">
+    <div class="container mt-5">
+        <div class="alert alert-danger none" id="alert-message" role="alert">
+            Please Fill The All Areas
+        </div>
+        <div class="d-flex flex-column flex-lg-row  align-items-center justify-content-center">
+            <div class="d-flex flex-column px-2">
+                <label class="">Title</label>
+                <input class="form-control" type="text" id="titleInput">
+                <small class="form-text text-muted">Please Write Title Of Image</small>
+            </div>
+            <div class="d-flex flex-column px-2">
+                <label>Body Input</label>
+                <input class="form-control" type="text" id="bodyInput">
+                <small class="form-text text-muted">Please Write Body Of Image</small>
+            </div>
+            <div class="d-flex flex-column px-2">
+                <label>Image Id</label>
+                <input class="form-control" type="number" id="imageId">
+                <small class="form-text text-muted">Please Write Id Between 1-15</small>
+            </div>
+            <div class="d-flex flex-column px-2">
+                <label>Number Id</label>
+                <input class="form-control" type="number" id="idInput">
+                <small class="form-text text-muted" id="id-span">Please Write Id </small>
+            </div>
+            <div class="mt-2">
+                <button type="button" class="btn btn-success" onclick="addCard()">Add New Card</button>
+            </div>
+        </div>
         <div class="dialog-popup none" id="openPopup">
             <div class="dialog-content">
                 <div class="d-flex flex-column">
@@ -41,11 +59,6 @@
         <div class="row" id="image-div">
         </div>
     </div>
-
-
-
-
-
     <script src="./script.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
