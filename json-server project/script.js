@@ -4,11 +4,9 @@ let apiUrl = "http://localhost:3000/posts";
 
 async function getapi(apiUrl) {
     const response = await fetch(apiUrl);
-
     var data = await response.json();
-    console.log(data);
     showData(data);
-
+    allDatas.push(data)
 }
 
 //Fonksiyonun çağırılması
@@ -17,17 +15,88 @@ getapi(apiUrl);
 function showData(data) {
     let tab = ``
     for (let r of data) {
-        console.log(r.imageId)
         tab += `
-    <div class="card mr-5" style="width: 18rem;">
-    <img class="card-img-top" src="./images/image${r.imageId}.jpg" alt="Card image cap">
-    <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-    </div>
+        <div class="col-md-4 col-sm-6 mt-5" >
+        <div class="example-card w-100" >
+        <img class="card-img-top" src="./images/image${r.imageId}.jpg" alt="Card image cap">
+        <div class="card-body d-flex flex-column align-items-start pl-0">
+        <h5  class="card-title three-dots" >${r.title}</h5>
+        <p id="${r.id}" class="card-text three-dots" >${r.body}</p>
+        <div class="d-flex flex-column">
+        <button class="btn btn-primary" id=${r.id} onclick="openDialog(event.target.id)">Edit </button>
+        <span id=${r.id} onclick="showMore(event.target)" class="show-btn">Show More</span>
+        </div>
+        </div>
+        </div>
+        </div>
         `
         imageDiv.innerHTML = tab;
     }
+
+}
+
+//Show Text
+function showMore(event) {
+    console.log(event.id)
+    var cardBody = document.getElementById(event.id);
+    if (cardBody.classList.contains('three-dots')) {
+        cardBody.classList.remove('three-dots');
+    } else {
+        cardBody.classList.add('three-dots');
+    }
+}
+
+//Open Dialog
+let dataBody = document.getElementById('data-body');
+let popupDialog = document.getElementById('openPopup');
+let allDatas = [];
+
+function openDialog(event) {
+    allDatas.map(
+        x => {
+            for (let r of x) {
+                if (event == r.id) {
+                    dataBody.innerHTML = `${r.body}`
+                }
+            }
+        }
+    )
+    popupDialog.classList.remove('none');
+}
+
+
+let dialogInput = document.getElementById('input');
+
+function saveDialog() {
+    popupDialog.classList.add('none');
+    console.log(dialogInput.value);
+
+}
+let bodyInput = document.getElementById('bodyInput');
+let titleInput = document.getElementById('titleInput');
+let imageId = document.getElementById('imageId');
+let userId = document.getElementById('userId')
+let idInput = document.getElementById('idInput');
+
+function addCard() {
+    fetch(apiUrl, {
+        // Adding method type
+        method: "POST",
+        // Adding body or contents to send
+        body: JSON.stringify({
+            title: titleInput.value,
+            body: bodyInput.value,
+            imageId: imageId.value,
+            id: idInput.value
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+
+    })
+        // Converting to JSON
+        .then(response => response.json())
+        // Displaying results to console
+        .then(json => console.log(json));
+    console.log(allDatas, "alldata save");
 }
