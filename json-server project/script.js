@@ -20,16 +20,13 @@ function showData(data) {
     let tab = ``
     for (let r of data) {
         tab += `
-        <div class="col-md-4 col-sm-6 mt-5" >
+        <div class="col-md-4 col-sm-6 mt-5" id="cards-div">
         <div class="example-card w-100" >
         <img class="card-img-top" src="./images/image${r.imageId}.jpg" alt="Card image cap">
         <div class="card-body d-flex flex-column align-items-start pl-0">
         <h5  class="card-title three-dots" >${r.title}</h5>
         <p id="${r.id}" class="card-text three-dots" >${r.body}</p>
         <div class="d-flex flex-column">
-        <!--- 
-        <button class="btn btn-primary" id=${r.id} onclick="openDialog(event.target.id)">Edit </button>
-        -->
         <span id=${r.id} onclick="showMore(event.target)" class="show-btn">Show More</span>
         </div>
         </div>
@@ -38,6 +35,7 @@ function showData(data) {
         `
         imageDiv.innerHTML = tab;
     }
+
 }
 
 //Show Text
@@ -55,26 +53,6 @@ function showMore(event) {
 let dataBody = document.getElementById('data-body');
 let popupDialog = document.getElementById('openPopup');
 let allDatas = [];
-
-function openDialog(event) {
-    allDatas.map(
-        x => {
-            for (let r of x) {
-                if (event == r.id) {
-                    dataBody.innerHTML = `${r.body}`
-                }
-            }
-        }
-    )
-    popupDialog.classList.remove('none');
-}
-
-let dialogInput = document.getElementById('input');
-
-function saveDialog() {
-    popupDialog.classList.add('none');
-    console.log(dialogInput.value);
-}
 
 let bodyInput = document.getElementById('bodyInput');
 let titleInput = document.getElementById('titleInput');
