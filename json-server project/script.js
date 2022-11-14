@@ -3,7 +3,11 @@ let apiUrl = "http://localhost:3000/posts";
 
 
 async function getapi(apiUrl) {
-    const response = await fetch(apiUrl);
+    const response = await fetch(apiUrl)
+    .catch(error=>{
+        console.log(error);
+        console.log("error");
+    })
     var data = await response.json();
     showData(data);
     allDatas.push(data)
